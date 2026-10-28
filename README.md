@@ -146,7 +146,7 @@ dsh plugin --profile <profile> add file:<本仓库绝对路径>
 
 ```text
 lib/index.js      宿主半边：只声明 Config，42 行
-lib/client.js     浏览器半边：菜单 UI + 收纳逻辑，约 820 行
+lib/client.js     浏览器半边：菜单 UI + 收纳逻辑，816 行
 locale/{zh,en}.json
 cordis.patch.yml  loader 补丁，告诉 DSH 有这么一个插件
 icon.svg
