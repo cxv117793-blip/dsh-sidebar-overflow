@@ -1,0 +1,72 @@
+{
+  "name": "dsh-sidebar-overflow",
+  "version": "0.1.0",
+  "description": "Sidebar Overflow — choose which left-sidebar entries stay visible and collect the rest into a More menu.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib",
+    "locale",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-store",
+        "@deepseek-ai/dsh-client-ui-primitives"
+      ]
+    },
+    "manifestVersion": 1
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "cordis",
+    "sidebar",
+    "sidebar-overflow",
+    "more-menu",
+    "ui",
+    "navigation"
+  ],
+  "license": "MIT",
+  "author": "cxv117793-blip",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cxv117793-blip/dsh-sidebar-overflow.git"
+  },
+  "homepage": "https://github.com/cxv117793-blip/dsh-sidebar-overflow#readme",
+  "bugs": {
+    "url": "https://github.com/cxv117793-blip/dsh-sidebar-overflow/issues"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.5"
+  }
+}

@@ -1,0 +1,5 @@
+# dsh-sidebar-overflow 的 loader 补丁。
+# 由 dsh 在合并 profile 时插入，不要手写进 profile 的 loader 列表。
+- insert:
+    - id: dsh-sidebar-overflow
+      name: dsh-sidebar-overflow
