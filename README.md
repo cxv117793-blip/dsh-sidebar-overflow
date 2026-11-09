@@ -3,7 +3,7 @@
 > **把左侧边栏里不常用的入口收进「更多」，哪些留在外面由你决定。**
 > 点一下收起、点一下放回，改完立刻生效，DSH 重启后依然记得。
 
-[![release](https://img.shields.io/badge/release-v0.1.0-2ea44f)](https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/latest)
+[![release](https://img.shields.io/badge/release-v0.1.1-2ea44f)](https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/latest)
 [![DSH](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4d6bfe)](https://github.com/deepseek-ai)
 [![node](https://img.shields.io/badge/node-%5E22.19%20%7C%7C%20%3E%3D24-339933)](package.json)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -64,7 +64,7 @@ https://github.com/cxv117793-blip/dsh-sidebar-overflow
 | 用途 | 地址 |
 |---|---|
 | 永远指向最新版（文件名固定） | `https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/latest/download/dsh-sidebar-overflow.tgz` |
-| 锁定 v0.1.0 | `https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/download/v0.1.0/dsh-sidebar-overflow-0.1.0.tgz` |
+| 锁定 v0.1.1 | `https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/download/v0.1.1/dsh-sidebar-overflow-0.1.1.tgz` |
 
 也可以先下载再装：
 
@@ -143,6 +143,9 @@ dsh plugin --profile <你的profile> add file:<本仓库绝对路径>
 4. **底部工具区**
    `sidebar.footer.action` 没有对应的官方 pin 机制，只能按 DOM 兄弟节点顺序做 best-effort 隐藏；匹配不到就静默跳过，不影响主功能。
 
+5. **启动稳定性**
+   只硬注入 `slots`。`locale` 与 `configForms` 都是启动后期才就位的服务：`locale` 自己注入 `remote` + `configForms`，而 `configForms` 的宿主 `ui-settings` 挂在 `remote` → `connection` 这条重连链下游，首次连接成功的事件必然晚于宿主的启动检查点。Cordis 的 `inject` 数组全是**必需依赖**——其中任一服务重新 `provide`（uid 变化）就会让纤维先 `unload` 再 `reload`，这段时间状态是 `UNLOADING`/`LOADING`。如果它们写在主条目的 `inject` 里，宿主检查那一刻就可能读到 `loading`，判定 `entry did not activate` 并中止整个 UI 挂载（v0.1.0 在部分机器上偶发启动失败即此故）。现在改成 `ctx.inject(["locale", "configForms"], (sub) => {…})` 子纤维注入：主条目只依赖稳定的 `slots`，服务到齐后子纤维自己加载，中途抖动不再波及主条目。
+
 Host 半边（`lib/index.js`）只有 43 行，只声明设置项，`apply()` 是故意空的。
 
 ## 已知限制
@@ -172,7 +175,7 @@ Host 半边（`lib/index.js`）只有 43 行，只声明设置项，`apply()` �
 不会。插件停用/卸载时会把官方 pin store 还原成全可见、并用 `data-dso-hid` 标记还原被藏起来的底部按钮，不需要刷新自救。所有 DOM 操作都包在 `try/catch` 里，取不到元素就静默跳过。
 
 **支持哪些 DSH 版本？**
-开发与实测环境是 DSH **0.2.1-rc.3**（CLI `0.2.0-rc.2`）。插件只依赖 `slots`、`locale`、`configForms` 三个长期稳定的服务面，没有声明 `engines.dsh` 硬约束 —— 但它确实没有在更老的版本上验证过。
+开发与实测环境是 DSH **0.2.1-rc.3**（CLI `0.2.0-rc.2`）。插件只硬依赖 `slots`，`locale` 与 `configForms` 走子纤维注入，没有声明 `engines.dsh` 硬约束 —— 但它确实没有在更老的版本上验证过。
 
 ## 安全边界
 
@@ -267,6 +270,15 @@ no component replacement:
    which means "do not reload the plugin on change" — not "do not persist".
 4. Footer actions have no official pin mechanism, so they are hidden best-effort by DOM
    sibling order.
+5. Only `slots` is a hard inject. `locale` and `configForms` arrive late — `locale`
+   injects `remote` + `configForms`, and `configForms`' host `ui-settings` sits
+   downstream of the `remote` → `connection` reconnect loop, so the first successful
+   connection always happens after the host's boot checkpoint. A cordis `inject` array is
+   all-required: re-providing any entry (new `uid`) unloads and reloads the fiber, and the
+   fiber reads `LOADING`/`UNLOADING` meanwhile. Declared on the main entry, that window
+   could be sampled by the boot check, which then reports `entry did not activate` and
+   aborts the whole UI mount. They now live in a `ctx.inject([...], (sub) => {…})` child
+   fiber, so the main entry only depends on the stable `slots` service.
 
 ### Known limitation
 

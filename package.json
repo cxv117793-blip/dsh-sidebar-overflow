@@ -1,6 +1,6 @@
 {
   "name": "dsh-sidebar-overflow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sidebar Overflow — choose which left-sidebar entries stay visible and collect the rest into a More menu.",
   "type": "module",
   "main": "lib/index.js",
@@ -21,7 +21,8 @@
     "icon.svg",
     "cordis.patch.yml",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "dsh": {
     "bundle": {
