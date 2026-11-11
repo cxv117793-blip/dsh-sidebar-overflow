@@ -3,7 +3,7 @@
 > **把左侧边栏里不常用的入口收进「更多」，哪些留在外面由你决定。**
 > 点一下收起、点一下放回，改完立刻生效，DSH 重启后依然记得。
 
-[![release](https://img.shields.io/badge/release-v0.1.1-2ea44f)](https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/latest)
+[![release](https://img.shields.io/badge/release-v0.1.2-2ea44f)](https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/latest)
 [![DSH](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4d6bfe)](https://github.com/deepseek-ai)
 [![node](https://img.shields.io/badge/node-%5E22.19%20%7C%7C%20%3E%3D24-339933)](package.json)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -64,7 +64,7 @@ https://github.com/cxv117793-blip/dsh-sidebar-overflow
 | 用途 | 地址 |
 |---|---|
 | 永远指向最新版（文件名固定） | `https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/latest/download/dsh-sidebar-overflow.tgz` |
-| 锁定 v0.1.1 | `https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/download/v0.1.1/dsh-sidebar-overflow-0.1.1.tgz` |
+| 锁定 v0.1.2 | `https://github.com/cxv117793-blip/dsh-sidebar-overflow/releases/download/v0.1.2/dsh-sidebar-overflow-0.1.2.tgz` |
 
 也可以先下载再装：
 
